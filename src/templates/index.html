@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoTradingTool - A股量化分析工具</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=3">
+    <!-- ECharts CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+</head>
+<body>
+    <!-- ============================================================ -->
+    <!-- 顶部导航栏 -->
+    <!-- ============================================================ -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="logo">
+                <span class="logo-icon">📊</span>
+                <span class="logo-text">Algo<span class="accent">Trading</span>Tool</span>
+            </div>
+            <div class="subtitle">A股市场情绪量化分析平台</div>
+        </div>
+    </header>
+
+    <!-- ============================================================ -->
+    <!-- 搜索区域 -->
+    <!-- ============================================================ -->
+    <section class="search-section">
+        <div class="search-container">
+            <input
+                type="text"
+                id="stock-input"
+                class="search-input"
+                placeholder="输入A股名称，如：贵州茅台、宁德时代、比亚迪..."
+                autocomplete="off"
+            >
+            <button id="analyze-btn" class="search-btn" onclick="runAnalysis()">
+                <span class="btn-icon">🔍</span>
+                <span class="btn-text">开始分析</span>
+            </button>
+        </div>
+        <div class="search-hint">支持沪深A股 · 实时数据 · 多平台新闻 · SnowNLP情感分析</div>
+    </section>
+
+    <!-- ============================================================ -->
+    <!-- 加载动画 -->
+    <!-- ============================================================ -->
+    <div id="loading" class="loading hidden">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在分析中...</div>
+        <div class="loading-detail" id="loading-detail">获取实时交易数据</div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- 分析结果区域 -->
+    <!-- ============================================================ -->
+    <main id="result-container" class="result-container hidden">
+
+        <!-- 🔴 第一行：总买卖建议横幅（最醒目） -->
+        <section id="recommendation-banner" class="recommendation-banner">
+            <div class="rec-badge" id="rec-badge">--</div>
+            <div class="rec-content">
+                <h2 class="rec-title" id="rec-title">--</h2>
+                <p class="rec-summary" id="rec-summary">请输入股票名称开始分析</p>
+            </div>
+            <div class="rec-stock-info" id="rec-stock-info">
+                <span class="stock-name-large">--</span>
+                <span class="stock-price-large">--</span>
+                <span class="stock-change-large">--</span>
+            </div>
+        </section>
+
+        <!-- 第二行：4个核心数据卡片 -->
+        <section class="score-cards">
+            <div class="card card-financial">
+                <div class="card-header">
+                    <span class="card-icon">📈</span>
+                    <span class="card-label">财务评分</span>
+                </div>
+                <div class="card-value" id="score-financial">--</div>
+                <div class="card-bar">
+                    <div class="card-bar-fill financial-fill" id="bar-financial"></div>
+                </div>
+                <div class="card-desc">基于PE/PB/ROE/营收增速</div>
+            </div>
+            <div class="card card-sentiment">
+                <div class="card-header">
+                    <span class="card-icon">💬</span>
+                    <span class="card-label">情感评分</span>
+                </div>
+                <div class="card-value" id="score-sentiment">--</div>
+                <div class="card-bar">
+                    <div class="card-bar-fill sentiment-fill" id="bar-sentiment"></div>
+                </div>
+                <div class="card-desc">基于SnowNLP舆论分析</div>
+            </div>
+            <div class="card card-risk">
+                <div class="card-header">
+                    <span class="card-icon">⚠️</span>
+                    <span class="card-label">风险评分</span>
+                </div>
+                <div class="card-value" id="score-risk">--</div>
+                <div class="card-bar">
+                    <div class="card-bar-fill risk-fill" id="bar-risk"></div>
+                </div>
+                <div class="card-desc">情绪分歧 · 越低越统一</div>
+            </div>
+            <div class="card card-confidence">
+                <div class="card-header">
+                    <span class="card-icon">🎯</span>
+                    <span class="card-label">置信度</span>
+                </div>
+                <div class="card-value" id="score-confidence">--</div>
+                <div class="card-bar">
+                    <div class="card-bar-fill confidence-fill" id="bar-confidence"></div>
+                </div>
+                <div class="card-desc">来源可靠性加权</div>
+            </div>
+        </section>
+
+        <!-- 第三行：图表区域 -->
+        <section class="charts-section" style="display:flex;flex-direction:column;gap:40px;margin-bottom:48px;">
+            <div class="chart-panel" style="background:var(--bg-card, #1a1f3a);border:1px solid var(--border-color, #2a2f50);border-radius:16px;padding:48px 64px;width:100%;display:flex;flex-direction:column;">
+                <h3 class="chart-title" style="font-size:26px;font-weight:700;color:var(--text-primary, #e0e6f0);margin-bottom:32px;text-align:center;letter-spacing:2px;">六维雷达图</h3>
+                <div id="radar-chart" style="width:100% !important;height:900px !important;min-height:900px !important;"></div>
+            </div>
+            <div class="chart-panel" style="background:var(--bg-card, #1a1f3a);border:1px solid var(--border-color, #2a2f50);border-radius:16px;padding:48px 64px;width:100%;display:flex;flex-direction:column;">
+                <h3 class="chart-title" style="font-size:26px;font-weight:700;color:var(--text-primary, #e0e6f0);margin-bottom:32px;text-align:center;letter-spacing:2px;">信息来源分布</h3>
+                <div id="source-pie-chart" style="width:100% !important;height:900px !important;min-height:900px !important;"></div>
+            </div>
+        </section>
+
+        <!-- 第四行：新闻摘要卡片 -->
+        <section class="news-section">
+            <h3 class="section-title">
+                📰 近期重要新闻
+                <span class="news-count" id="news-count">0条</span>
+            </h3>
+            <div id="news-list" class="news-list">
+                <!-- 动态填充 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================================ -->
+    <!-- 页脚 -->
+    <!-- ============================================================ -->
+    <footer class="footer">
+        <p>AlgoTradingTool © 2025 | 仅供学习参考，不构成投资建议 | 数据来源：akshare</p>
+    </footer>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/charts.js') }}?v=3"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=3"></script>
+</body>
+</html>

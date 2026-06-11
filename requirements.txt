@@ -1,0 +1,7 @@
+flask>=3.0
+akshare>=1.14
+snownlp>=0.12.3
+pandas>=2.0
+numpy>=1.24
+jieba>=0.42
+requests>=2.31
