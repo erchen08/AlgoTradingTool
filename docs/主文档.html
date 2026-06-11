@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>主文档.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="algotradingtool--a-股量化分析工具">AlgoTradingTool — A 股量化分析工具</h1>
+<blockquote>
+<p><strong>GitHub 仓库</strong>: https://github.com/erchen08/AlgoTradingTool</p>
+</blockquote>
+<hr>
+<h2 id="一项目概述">一、项目概述</h2>
+<p>AlgoTradingTool 是一款基于 Web 的 A 股市场情绪量化分析工具。用户输入任意 A 股名称后，系统自动抓取实时交易数据和多平台新闻，通过 SnowNLP 中文情感分析引擎量化市场舆论，最终输出一个 <strong>0-100 的推荐指数</strong>与多维度可视化报告。</p>
+<h3 id="核心功能">核心功能</h3>
+<ol>
+<li><strong>智能股票搜索</strong> — 覆盖 5527 只 A 股，支持名称/代码模糊匹配</li>
+<li><strong>实时行情获取</strong> — 股价、涨跌幅、均线系统（腾讯源）</li>
+<li><strong>多平台新闻抓取</strong> — 东方财富 + 雪球 + 公告信披</li>
+<li><strong>SnowNLP 情感分析</strong> — 逐条新闻情感打分，输出均值/标准差/极化指标</li>
+<li><strong>综合推荐指数</strong> — 财务 × 0.4 + 情感 × 0.4 + (100-风险) × 0.2</li>
+<li><strong>六维雷达图</strong> — 财务表现、资本市场、市场竞争、产品技术、公司经营、行业政策</li>
+<li><strong>三分类饼图</strong> — 官方媒体 / 主流媒体 / 自媒体，带置信度权重</li>
+<li><strong>新闻摘要卡片</strong> — 每条新闻一句话摘要，情感颜色标签</li>
+</ol>
+<hr>
+<h2 id="二技术架构">二、技术架构</h2>
+<table>
+<thead>
+<tr>
+<th>层级</th>
+<th>技术</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>后端</td>
+<td>Flask（Python）</td>
+</tr>
+<tr>
+<td>数据源</td>
+<td>akshare（新浪 + 腾讯双源回退）</td>
+</tr>
+<tr>
+<td>新闻抓取</td>
+<td>东方财富 API</td>
+</tr>
+<tr>
+<td>分词</td>
+<td>jieba</td>
+</tr>
+<tr>
+<td>情感分析</td>
+<td>SnowNLP（朴素贝叶斯中文情感模型）</td>
+</tr>
+<tr>
+<td>前端</td>
+<td>HTML5 + CSS3 + 原生 JavaScript</td>
+</tr>
+<tr>
+<td>图表</td>
+<td>ECharts 5.x</td>
+</tr>
+<tr>
+<td>代理</td>
+<td>HTTP 代理自动配置</td>
+</tr>
+</tbody>
+</table>
+<h3 id="核心算法">核心算法</h3>
+<ul>
+<li><strong>朴素贝叶斯情感分类</strong> — SnowNLP 对每条新闻计算 0~1 情感概率</li>
+<li><strong>多因子加权评分</strong> — 三维度（财务/情感/风险）加权融合得出推荐指数</li>
+<li><strong>关键词规则分类</strong> — 六维雷达维度 + 三分类来源分级，基于关键词词典匹配</li>
+<li><strong>Jaccard 相似度去重</strong> — 标题 n-gram Jaccard 系数用于新闻去重</li>
+<li><strong>情感极化检测</strong> — 标准差 + 正负比例平衡度 → 风险评分</li>
+</ul>
+<hr>
+<h2 id="三界面截图">三、界面截图</h2>
+<h3 id="31-搜索主界面">3.1 搜索主界面</h3>
+<p>用户在此输入 A 股名称或代码，点击&quot;开始分析&quot;触发全流程。</p>
+<p><img src="pic1.png" alt="搜索主界面"></p>
+<h3 id="32-推荐指数与评分卡片">3.2 推荐指数与评分卡片</h3>
+<p>页面顶部显示圆形推荐指数徽章（0-100）、星级评定（★~★★★★★）、一句话总结，以及当前股价和涨跌幅。下方四张卡片分别展示财务评分、情感评分、风险评分和置信度。</p>
+<p><img src="pic2.png" alt="推荐指数"></p>
+<h3 id="33-六维雷达图">3.3 六维雷达图</h3>
+<p>六个维度（财务表现、资本市场、市场竞争、产品技术、公司经营、行业政策）的综合得分可视化。财务表现和资本市场来自实时交易数据，其余四维来自新闻关键词分类后情感聚合。图表高度 900px，全宽展示。</p>
+<p><img src="pic3.png" alt="六维雷达图"></p>
+<h3 id="34-信息来源饼图">3.4 信息来源饼图</h3>
+<p>三分类饼图展示新闻来源构成：官方媒体（金色）、主流媒体（青色）、自媒体（灰色）。来源分类结合媒体名称关键词和内容信号（如含&quot;公告&quot;&quot;披露&quot;视为官方信披转载）。右侧图例显示各类别具体条数。</p>
+<p><img src="pic4.png" alt="信息来源饼图"></p>
+<h3 id="35-新闻摘要卡片">3.5 新闻摘要卡片</h3>
+<p>每条新闻以独立卡片展示，包含标题、一句话摘要、来源分类标签和情感分数。卡片左侧色带表示情感倾向：绿色=正面（&gt;55%）、黄色=中性、红色=负面（&lt;45%）。</p>
+<p><img src="pic5.png" alt="新闻摘要卡片"></p>
+<hr>
+<h3 id="数据流示意">数据流示意</h3>
+<pre class="hljs"><code><div>用户输入股票名称
+    │
+    ▼
+[1] akshare 搜索股票代码 → 实时行情 + K线 + 财务指标
+    │
+    ▼
+[2] 东方财富 + 雪球 + 公告 → 新闻抓取 → 去重
+    │
+    ▼
+[3] SnowNLP 情感分析 → 来源分级 → 维度分类
+    │
+    ▼
+[4] 综合评分引擎 → 推荐指数
+    │
+    ▼
+[5] ECharts 六维雷达图 + 三分类饼图 + 新闻卡片
+</div></code></pre>
+<hr>
+<h2 id="四运行方法">四、运行方法</h2>
+<pre class="hljs"><code><div><span class="hljs-comment"># 1. 安装依赖</span>
+pip install -r requirements.txt
+
+<span class="hljs-comment"># 2. 配置代理（编辑 src/config.py）</span>
+PROXY_PORT = 6518  <span class="hljs-comment"># 改为你的代理端口</span>
+
+<span class="hljs-comment"># 3. 启动</span>
+python src/app.py
+
+<span class="hljs-comment"># 4. 访问</span>
+<span class="hljs-comment"># 浏览器打开 http://127.0.0.1:18000</span>
+</div></code></pre>
+<p>搜索 &quot;贵州茅台&quot; 或 &quot;600519&quot; 即可看到完整分析。</p>
+<hr>
+<h2 id="五课程知识点应用">五、课程知识点应用</h2>
+<table>
+<thead>
+<tr>
+<th>知识点</th>
+<th>课程关联</th>
+<th>应用位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>朴素贝叶斯分类</td>
+<td>概率论 / 机器学习</td>
+<td>SnowNLP 中文情感分析</td>
+</tr>
+<tr>
+<td>多因子加权模型</td>
+<td>统计分析 / 量化金融</td>
+<td>推荐指数 = 财务×0.4 + 情感×0.4 + (100-风险)×0.2</td>
+</tr>
+<tr>
+<td>规则引擎 + 词典匹配</td>
+<td>数据结构 / NLP</td>
+<td>六维雷达维度分类、新闻来源三分类</td>
+</tr>
+<tr>
+<td>Jaccard 相似度</td>
+<td>离散数学 / 信息检索</td>
+<td>新闻标题去重</td>
+</tr>
+<tr>
+<td>RESTful API</td>
+<td>Web 开发</td>
+<td>Flask <code>@app.route</code> 路由设计</td>
+</tr>
+<tr>
+<td>ECharts 数据可视化</td>
+<td>数据可视化</td>
+<td>雷达图 + 饼图</td>
+</tr>
+<tr>
+<td>Python 异常处理与容错</td>
+<td>软件工程</td>
+<td>双数据源回退、代理切换、缓存策略</td>
+</tr>
+<tr>
+<td>Unicode 规范化</td>
+<td>字符编码</td>
+<td><code>unicodedata.normalize</code> 处理中文跨平台一致性问题</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="六ai-工具使用声明">六、AI 工具使用声明</h2>
+<p>本项目使用 <strong>Anthropic Claude（Claude Code）</strong> 作为 AI 辅助编程工具。</p>
+<table>
+<thead>
+<tr>
+<th>模块</th>
+<th>AI 参与内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>前端代码</td>
+<td>HTML/CSS/JS 由 AI 生成</td>
+</tr>
+<tr>
+<td>Flask 后端</td>
+<td>API 路由和请求处理由 AI 实现</td>
+</tr>
+<tr>
+<td>评分引擎</td>
+<td>多因子加权公式由 AI 草拟并实现</td>
+</tr>
+<tr>
+<td>分类器</td>
+<td>关键词词典和规则逻辑由 AI 编写</td>
+</tr>
+<tr>
+<td>调试</td>
+<td>SSL 证书、代理、端口等环境问题由 AI 排查</td>
+</tr>
+<tr>
+<td>文档</td>
+<td>README 和主文档由 AI 撰写</td>
+</tr>
+</tbody>
+</table>
+<p><strong>本人独立完成</strong>：需求定义、技术选型（Flask + akshare + SnowNLP）、UI 设计风格（深色科技风）、评分维度设计（六维雷达 + 三分类来源）、全程测试验证与反馈迭代。</p>
+<hr>
+<h2 id="七项目结构">七、项目结构</h2>
+<pre class="hljs"><code><div>AlgoTradingTool/
+├── src/                    # 核心源代码
+├── docs/                   # 文档、附件
+├── tests/                  # 测试用例
+├── README.md               # 项目主文档
+├── LICENSE                 # MIT 协议
+└── requirements.txt        # 环境依赖
+</div></code></pre>
+<hr>
+<h2 id="八评分体系参考">八、评分体系参考</h2>
+<table>
+<thead>
+<tr>
+<th>指数范围</th>
+<th>星级</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>≥ 85</td>
+<td>★★★★★</td>
+<td>强烈推荐</td>
+</tr>
+<tr>
+<td>70–84</td>
+<td>★★★★</td>
+<td>推荐买入</td>
+</tr>
+<tr>
+<td>55–69</td>
+<td>★★★</td>
+<td>推荐买入</td>
+</tr>
+<tr>
+<td>40–54</td>
+<td>★★</td>
+<td>谨慎观望</td>
+</tr>
+<tr>
+<td>&lt; 40</td>
+<td>★</td>
+<td>建议回避</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="九依赖与参考文献">九、依赖与参考文献</h2>
+<h3 id="python-依赖">Python 依赖</h3>
+<pre class="hljs"><code><div>flask&gt;=3.0
+akshare&gt;=1.14
+snownlp&gt;=0.12.3
+pandas&gt;=2.0
+numpy&gt;=1.24
+jieba&gt;=0.42
+requests&gt;=2.31
+</div></code></pre>
+<h3 id="开源组件引用">开源组件引用</h3>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>用途</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>akshare</td>
+<td>A 股数据接口</td>
+<td>https://github.com/akshare/akshare</td>
+</tr>
+<tr>
+<td>SnowNLP</td>
+<td>中文情感分析</td>
+<td>https://github.com/isnowfy/snownlp</td>
+</tr>
+<tr>
+<td>ECharts</td>
+<td>数据可视化</td>
+<td>https://echarts.apache.org/</td>
+</tr>
+<tr>
+<td>Flask</td>
+<td>Web 框架</td>
+<td>https://flask.palletsprojects.com/</td>
+</tr>
+<tr>
+<td>jieba</td>
+<td>中文分词</td>
+<td>https://github.com/fxsjy/jieba</td>
+</tr>
+</tbody>
+</table>
+<h3 id="完整技术文档">完整技术文档</h3>
+<p>详见 <a href="https://github.com/erchen08/AlgoTradingTool/blob/main/README.md">README.md</a> 和 <code>src/</code> 各模块的 docstring 注释。</p>
+<hr>
+<h2 id="十免责声明">十、免责声明</h2>
+<p>本工具仅供学习研究使用，<strong>不构成任何投资建议</strong>。股市有风险，投资需谨慎。</p>
+<p>数据来源：akshare（新浪财经、腾讯证券、东方财富）</p>
+<p><strong>License</strong>: MIT</p>
+
+</body>
+</html>
